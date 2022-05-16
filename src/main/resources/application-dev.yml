@@ -1,0 +1,5 @@
+spring:
+  cloud:
+    config:
+      enabled: false
+  web.resources.static-locations: file:src/main/resources/static/

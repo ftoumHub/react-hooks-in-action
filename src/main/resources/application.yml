@@ -1,0 +1,11 @@
+app:
+  name: "@project.artifactId@"
+  version: "@project.version@"
+  env: ${spring.profiles.active}
+  title: Personne(s) à l'évènement
+  darwinId: Accueil_A_et_C
+
+spring:
+  application.name: "@project.artifactId@"
+  codec.max-in-memory-size: 16MB
+  cloud.config.enabled: false

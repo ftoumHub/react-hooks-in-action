@@ -1,0 +1,41 @@
+@import 'node_modules/plume-react/dist/style/plm_palette';
+@import 'node_modules/plume-react/dist/style/colors';
+
+//== Colors
+$gray-100: #f8f9fa !default;
+$gray-200: #e9ecef !default;
+$gray-300: #dee2e6 !default;
+$gray-400: #ced4da !default;
+$gray-500: #adb5bd !default;
+$gray-600: #6c757d !default;
+$gray-700: #495057 !default;
+$gray-800: #343a40 !default;
+$gray-900: #212529 !default;
+$background: rgba(237, 233, 226, 1);
+$primary: #2e404f;
+$primary-light: #e7eaeb;
+$primary-lighter: #e1e7ef;
+$secondary: #c62222;
+$secondary-light: #fbf1f3;
+$success: #4cb437;
+$info: #999999;
+$warning: #f4c145;
+$danger: #fc0d1a;
+$reminder: #f9545e;
+
+$light: $yaourt !default;
+$dark: $primary !default;
+
+//== Fonts
+$font-family-headings: 'Source Code Pro', Arial, sans-serif !default;
+$font-family: Arial, sans-serif !default;
+
+//== Grid system
+$grid-breakpoints: (xs: 0, sm: 576px, md: 768px, lg: 992px, xl: 1200px) !default;
+
+//== Section
+$section-color-info: $dark;
+$section-color-error: $alerte-bourgogne;
+
+//== Forms
+$form-fragment-gap: 1rem;

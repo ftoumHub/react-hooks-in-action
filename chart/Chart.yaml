@@ -1,0 +1,35 @@
+---
+apiVersion: v2
+name: personne-a-evenement-pae-frontend
+description: Chart Helm pour déployer le composant sur OpenShift, construit par le pipeline maif sur Jenkins
+
+type: application
+
+# ==========================================================================
+# This is the chart version. This version number should be incremented
+# each time you make changes to the chart and its templates, including
+# the app version.
+
+# PIPELINE MAIF: dans le cadre de la techno fun (un repo, un composant, un docker
+# donc un helm) la version du chart suit la version défini dans le pom.xml
+# ou le package.json
+version: x.y.z
+
+# ==========================================================================
+# This is the version number of the application being deployed. This version
+# number should be incremented each time you make changes to the application.
+
+# PIPELINE MAIF: dans le cadre de la techno fun (un repo, un composant, un docker
+# donc un helm) la version de l'applicatif suit la version défini dans le pom.xml
+# ou le package.json
+appVersion: x.y.z
+
+keywords:
+  - application
+  - pae-frontend
+  - frontend
+
+dependencies:
+  - name: maif-library-helm
+    version: 2.5.2
+    repository: "alias:releases"

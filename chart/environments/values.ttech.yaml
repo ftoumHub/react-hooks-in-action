@@ -1,0 +1,4 @@
+---
+config:
+# Attention à l'ordre (priorité de gauche à droite)
+  SPRING_PROFILES_ACTIVE: "recx,logging"

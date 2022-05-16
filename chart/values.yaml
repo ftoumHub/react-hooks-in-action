@@ -1,0 +1,44 @@
+---
+env: à choisir au déploiement
+
+componentName: pae-frontend
+
+image: 'nexus-fabfonc.maif.local:5000/fr-maif-iard/pae-frontend'
+
+limits:
+  memory: 1Gi
+
+livenessProbe:
+  initialDelaySeconds: 45
+  periodSeconds: 30
+readinessProbe:
+  initialDelaySeconds: 60
+  periodSeconds: 20
+
+config:
+  _JAVA_OPTIONS: '-Xmx512m -Xms256m -XX:MaxMetaspaceSize=128m -XX:+UseG1GC -Duser.timezone=Europe/Paris'
+  # Je garde SPRING_CLOUD_CONFIG_URI uniquement pour la rétro-compatibilité avec la clé loggin.config du ccs qui s'appuie sur cette variable
+  SPRING_CLOUD_CONFIG_URI_TEMPLATE-MAIF: "http://svc-central-config-gui.central-config-server-<ENV-CCS>.svc.cluster.local"
+  SPRING_CONFIG_IMPORT_TEMPLATE-MAIF: "configserver:http://svc-central-config-gui.central-config-server-<ENV-CCS>.svc.cluster.local"
+  SPRING_PROFILES_ACTIVE_TEMPLATE-MAIF: "<ENV>,logging"
+
+# Configuration spécifique library helm (Surtout ne pas mettre de quote pour les booléens)
+# =====================================
+#usePrometheus: true|false (par défaut true)
+#prometheusURL: route d'accès au endpoint /prometheus (par défaut /{{ .Values.componentName }}/prometheus)
+prometheusURL: /actuator/prometheus
+#useDynatrace: true|false (par défaut true)
+#dynatraceTechno: "java"|"nginx" (par défaut "java")
+#dynatraceFlavor: (ex "musl") (par défaut <nil>)
+#useInitContainerWaitBackend: true|false (par défaut false)
+#backendName : nom du backend (par défaut backend). À définir si useInitContainerWaitBackend true
+#backendHealthURL: route d'accès au /health du backend (par défaut /{{ .Values.backendName }}/health)
+#useInitContainerWaitCCS: true|false (par défaut true)
+#useReadinessProbe: true|false (par défaut false)
+useReadinessProbe: false
+#readinessProbeURL: route d'accès au /health (par défaut /{{ .Values.componentName }}/health)
+readinessProbeURL: /actuator/health
+#useClientCert: true|false (par défaut true) (permet d'utiliser un certificat client)
+#haproxyRouterTimeout: durée du timeout (ex 10m) (par défaut <nil>)
+#useSealedSecrets: true|false (par défaut false)
+#sealedSecretsType: strict|namespace-wide|cluster-wide (par défaut strict)

@@ -1,0 +1,9 @@
+.DS_Store
+# Ignore IntelliJ specific project files
+.idea
+*.iml
+# Ignore Node modules directory
+node_modules
+.cache
+# Ignore Maven build output directory
+target

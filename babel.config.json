@@ -1,0 +1,17 @@
+{
+    "presets": [
+        [
+            "@babel/preset-env",
+            {
+                "corejs": 3,
+                "targets": [
+                    "Firefox ESR",
+                    "last 2 Chrome versions",
+                    "last 2 Firefox versions"
+                ],
+                "useBuiltIns": "entry"
+            }
+        ],
+        "@babel/preset-react"
+    ]
+}

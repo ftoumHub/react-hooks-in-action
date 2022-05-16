@@ -1,0 +1,50 @@
+{
+  "name": "react-hooks-in-action",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "start": "npm-run-all -p -r watch lint:watch",
+    "watch": "npx parcel watch src/main/js/index.js --log-level 3 --global app -d ./src/main/resources/static/assets --public-url /assets",
+    "build": "npx parcel build src/main/js/index.js --global app -d ./src/main/resources/static/assets --public-url /assets",
+    "test": "cross-env NODE_ENV=test jest --passWithNoTests",
+    "lint": "eslint --color src/main/js --ext js,jsx",
+    "lint:watch": "esw -w --color src/main/js",
+    "lint:fix": "eslint --fix --color src/main/js"
+  },
+  "engines": {
+    "node": "16"
+  },
+  "dependencies": {
+    "assets": "^3.0.1",
+    "graphql-hooks": "^5.10.0",
+    "react": "^18.0.0",
+    "react-icons": "^4.3.1",
+    "react-dom": "^18.0.0",
+    "react-router-dom": "^6.3.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.17.9",
+    "@babel/eslint-parser": "^7.17.0",
+    "@babel/plugin-proposal-optional-chaining": "^7.16.7",
+    "@babel/preset-env": "^7.16.11",
+    "@babel/preset-react": "^7.16.7",
+    "@testing-library/jest-dom": "^5.16.2",
+    "@testing-library/react": "^13.1.1",
+    "@testing-library/user-event": "^14.1.1",
+    "core-js": "^3.22.1",
+    "cross-env": "^7.0.3",
+    "eslint": "^8.13.0",
+    "eslint-plugin-react": "^7.29.4",
+    "eslint-plugin-react-hooks": "^4.4.0",
+    "eslint-watch": "^8.0.0",
+    "jest": "^27.5.1",
+    "jest-axe": "^6.0.0",
+    "jest-extended": "^2.0.0",
+    "jest-sonar-reporter": "^2.0.0",
+    "jest-transform-stub": "^2.0.0",
+    "npm-run-all": "^4.1.5",
+    "parcel-bundler": "^1.12.5",
+    "prop-types": "^15.8.1",
+    "sass": "^1.50.1"
+  }
+}
