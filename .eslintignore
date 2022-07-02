@@ -1,0 +1,2 @@
+*.spec.js
+src/main/js/components/__mocks__/*.js

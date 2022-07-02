@@ -9,27 +9,16 @@ import org.springframework.web.reactive.function.server.RouterFunction;
 import org.springframework.web.reactive.function.server.RouterFunctions;
 import org.springframework.web.reactive.function.server.ServerResponse;
 
+import static org.springframework.http.MediaType.TEXT_PLAIN;
+
 @Configuration
 public class FrontendRouter {
 
     @Bean
     public RouterFunction<ServerResponse> route(final FrontendHandler sinistresDeclarationPaeFrontendHandler) {
         return RouterFunctions
-                .route(RequestPredicateExtensions.getTextPlain("/"),
-                        request -> sinistresDeclarationPaeFrontendHandler.init())
-                .andRoute(RequestPredicateExtensions.getTextPlain("/bookings"),
-                        request -> sinistresDeclarationPaeFrontendHandler.init())
-                .andRoute(RequestPredicateExtensions.getTextPlain("/bookables"),
-                        request -> sinistresDeclarationPaeFrontendHandler.init())
-                .andRoute(RequestPredicateExtensions.getTextPlain("/users"),
+                .route(RequestPredicates.GET("/").and(RequestPredicates.accept(TEXT_PLAIN)),
                         request -> sinistresDeclarationPaeFrontendHandler.init());
     }
 
-    private enum RequestPredicateExtensions {
-        ;
-
-        private static RequestPredicate getTextPlain(final String pattern) {
-            return RequestPredicates.GET(pattern).and(RequestPredicates.accept(MediaType.TEXT_PLAIN));
-        }
-    }
 }

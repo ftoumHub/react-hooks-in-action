@@ -65000,7 +65000,10 @@ var _UserPicker = _interopRequireDefault(require("./components/Users/UserPicker"
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+// On importe les 3 composants représentants les pages
+// et on importe le composant UserPicker
 var App = function App() {
+  console.log('js/index.js ==> rendering App component');
   return /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, /*#__PURE__*/_react.default.createElement(_reactRouterDom.BrowserRouter, null, /*#__PURE__*/_react.default.createElement("div", {
     className: "App"
   }, /*#__PURE__*/_react.default.createElement("header", null, /*#__PURE__*/_react.default.createElement("nav", null, /*#__PURE__*/_react.default.createElement("ul", null, /*#__PURE__*/_react.default.createElement("li", null, /*#__PURE__*/_react.default.createElement(_reactRouterDom.Link, {
@@ -65025,7 +65028,7 @@ var App = function App() {
 };
 
 function init() {
-  console.log('==> init');
+  console.log('js/index.js ==> init()');
   var container = document.getElementById('root');
   var root = (0, _client.createRoot)(container);
   root.render( /*#__PURE__*/_react.default.createElement(App, null));
@@ -65058,7 +65061,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "62065" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "64653" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

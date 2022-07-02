@@ -3,18 +3,21 @@ import {createRoot} from 'react-dom/client';
 
 import './App.css';
 
-import {  BrowserRouter as Router, Routes, Route, Link} from 'react-router-dom';
+import {  BrowserRouter, Routes, Route, Link} from 'react-router-dom';
 
 import {FaCalendarAlt, FaDoorOpen, FaUsers} from 'react-icons/fa';
 
+// On importe les 3 composants représentants les pages
 import BookablesPage from './components/Bookables/BookablesPage';
 import BookingsPage from './components/Bookings/BookingsPage';
 import UsersPage from './components/Users/UsersPage';
+// et on importe le composant UserPicker
 import UserPicker from './components/Users/UserPicker';
 
 const App = () => {
+    console.log('js/index.js ==> rendering App component');
     return <>
-        <Router>
+        <BrowserRouter>
             <div className="App">
                 <header>
                     <nav>
@@ -49,13 +52,13 @@ const App = () => {
                     <Route path="/users" element={<UsersPage/>}/>
                 </Routes>
             </div>
-        </Router>
+        </BrowserRouter>
     </>;
 };
 
 
 export function init() {
-    console.log('==> init');
+    console.log('js/index.js ==> init()');
     const container = document.getElementById('root');
     const root = createRoot(container);
     root.render(<App />);
