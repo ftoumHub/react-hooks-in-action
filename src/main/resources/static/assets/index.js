@@ -64749,17 +64749,12 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 function BookablesList() {
   var _bookable$days, _bookable$sessions;
 
-  //const group = 'Rooms'; // Set the group of bookables to be shown.
+  console.log('==========> BookablesList() <=========='); // Calling useState returns a value and its updater function in an array with two elements
+
   var _useState = (0, _react.useState)('Kit'),
       _useState2 = _slicedToArray(_useState, 2),
       group = _useState2[0],
       setGroup = _useState2[1];
-
-  var bookablesInGroup = _static.bookables.filter(function (b) {
-    return b.group === group;
-  }); // filter the bookables to just those in the group
-  // Calling useState returns a value and its updater function in an array with two elements
-
 
   var _useState3 = (0, _react.useState)(0),
       _useState4 = _slicedToArray(_useState3, 2),
@@ -64770,6 +64765,7 @@ function BookablesList() {
     return b.group;
   })));
 
+  console.log('=> bookable.groups');
   console.log(groups);
   /**let bookableIndex = 1;
    const changeBookable = (selectedIndex) => {
@@ -64777,10 +64773,15 @@ function BookablesList() {
       console.log(selectedIndex);
   };*/
 
+  var bookablesInGroup = _static.bookables.filter(function (b) {
+    return b.group === group;
+  }); // filter the bookables to just those in the group
+
+
   var bookable = bookablesInGroup[bookableIndex];
-  console.log('==> bookable.days');
+  console.log('=> bookable.days');
   console.log(bookable.days);
-  console.log('==> bookable.sessions');
+  console.log('=> bookable.sessions');
   console.log(bookable.sessions);
 
   var _useState5 = (0, _react.useState)(false),
@@ -64788,15 +64789,18 @@ function BookablesList() {
       hasDetails = _useState6[0],
       setHasDetails = _useState6[1];
 
+  function changeGroup(event) {
+    setGroup(event.target.value);
+    setBookableIndex(0);
+  }
+
   function nextBookable() {
     setBookableIndex((bookableIndex + 1) % bookablesInGroup.length);
   }
 
   return /*#__PURE__*/_react.default.createElement(_react.Fragment, null, /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement("select", {
     value: group,
-    onChange: function onChange(e) {
-      return setGroup(e.target.value);
-    }
+    onChange: changeGroup
   }, groups.map(function (g) {
     return /*#__PURE__*/_react.default.createElement("option", {
       value: g,
@@ -65002,6 +65006,12 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 // On importe les 3 composants représentants les pages
 // et on importe le composant UserPicker
+
+/**
+ * We use the Link component to display our page links in the header, and Route elements
+ * to conditionally display page components depending on the matched URL.
+ * For example, if the user visits /bookings, the BookingsPage component will be displayed:
+ */
 var App = function App() {
   console.log('js/index.js ==> rendering App component');
   return /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, /*#__PURE__*/_react.default.createElement(_reactRouterDom.BrowserRouter, null, /*#__PURE__*/_react.default.createElement("div", {
@@ -65061,7 +65071,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "64653" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "51579" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

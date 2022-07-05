@@ -14,6 +14,11 @@ import UsersPage from './components/Users/UsersPage';
 // et on importe le composant UserPicker
 import UserPicker from './components/Users/UserPicker';
 
+/**
+ * We use the Link component to display our page links in the header, and Route elements
+ * to conditionally display page components depending on the matched URL.
+ * For example, if the user visits /bookings, the BookingsPage component will be displayed:
+ */
 const App = () => {
     console.log('js/index.js ==> rendering App component');
     return <>

@@ -11,15 +11,14 @@ import {FaArrowRight} from 'react-icons/fa';
  * you can’t just say “Hello, World!” to people in your head; you have to say it out loud.
  */
 export default function BookablesList() {
-
-    //const group = 'Rooms'; // Set the group of bookables to be shown.
-
-    const [group, setGroup] = useState('Kit');
-    const bookablesInGroup = bookables.filter(b => b.group === group); // filter the bookables to just those in the group
+    console.log('==========> BookablesList() <==========');
 
     // Calling useState returns a value and its updater function in an array with two elements
+    const [group, setGroup] = useState('Kit');
     const [bookableIndex, setBookableIndex] = useState(0);
     const groups = [...new Set(bookables.map(b => b.group))];
+
+    console.log('=> bookable.groups');
     console.log(groups);
 
     /**let bookableIndex = 1;
@@ -28,12 +27,19 @@ export default function BookablesList() {
         console.log(selectedIndex);
     };*/
 
+    const bookablesInGroup = bookables.filter(b => b.group === group); // filter the bookables to just those in the group
     const bookable = bookablesInGroup[bookableIndex];
-    console.log('==> bookable.days');
+
+    console.log('=> bookable.days');
     console.log(bookable.days);
-    console.log('==> bookable.sessions');
+    console.log('=> bookable.sessions');
     console.log(bookable.sessions);
     const [hasDetails, setHasDetails] = useState(false);
+
+    function changeGroup (event) {
+        setGroup(event.target.value);
+        setBookableIndex(0);
+    }
 
     function nextBookable() {
         setBookableIndex((bookableIndex + 1) % bookablesInGroup.length);
@@ -42,7 +48,7 @@ export default function BookablesList() {
     return (
         <Fragment>
             <div>
-                <select value={group} onChange={(e) => setGroup(e.target.value)}>
+                <select value={group} onChange={changeGroup}>
                     {groups.map(g => <option value={g} key={g}>{g}</option>)}
                 </select>
                 <ul className="bookables items-list-nav">
@@ -68,11 +74,11 @@ export default function BookablesList() {
                         <div className="item-header">
                             <h2>{bookable.title}</h2>
                             <span className="controls">
-                <label>
-                  <input type="checkbox" checked={hasDetails} onChange={() => setHasDetails(has => !has)}/>
-                  Show Details
-                </label>
-              </span>
+                                <label>
+                                  <input type="checkbox" checked={hasDetails} onChange={() => setHasDetails(has => !has)}/>
+                                  Show Details
+                                </label>
+                            </span>
                         </div>
 
                         <p>{bookable.notes}</p>

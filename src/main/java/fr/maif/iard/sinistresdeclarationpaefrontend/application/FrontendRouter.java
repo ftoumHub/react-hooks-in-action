@@ -17,8 +17,14 @@ public class FrontendRouter {
     @Bean
     public RouterFunction<ServerResponse> route(final FrontendHandler sinistresDeclarationPaeFrontendHandler) {
         return RouterFunctions
-                .route(RequestPredicates.GET("/").and(RequestPredicates.accept(TEXT_PLAIN)),
-                        request -> sinistresDeclarationPaeFrontendHandler.init());
+                .route(getTextPlain("/"), request -> sinistresDeclarationPaeFrontendHandler.init())
+                .andRoute(getTextPlain("/*"), request -> sinistresDeclarationPaeFrontendHandler.init());
+    }
+
+
+    private static RequestPredicate getTextPlain(final String pattern) {
+        return RequestPredicates.GET(pattern)
+                .and(RequestPredicates.accept(TEXT_PLAIN));
     }
 
 }
