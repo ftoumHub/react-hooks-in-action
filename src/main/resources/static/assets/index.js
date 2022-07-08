@@ -64702,6 +64702,70 @@ module.exports = {
   "sessions": ["Breakfast", "Morning", "Lunch", "Afternoon", "Evening"],
   "days": ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
 };
+},{}],"components/Bookables/reducer.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = reducer;
+
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+// With only four properties in total in our state, we could have set them all explicitly:
+//    return {
+//        group: action.payload,
+//        bookableIndex: 0,
+//        hasDetails: state.hasDetails, // Copy across previous values for unchanged properties.
+//        bookables: state.bookables //  Copy across previous values for unchanged properties.
+//    };
+// Using the spread operator protects the code as it evolves; the state may gain new prop-
+// erties in the future, and they all need to be copied across.
+function reducer(state, action) {
+  // Specify the action type as the comparison for each case.
+  switch (action.type) {
+    // Each case block returns a new JavaScript object; the previous state is not mutated.
+    // The object spread operator is used to copy across properties from the old state to the
+    // new. You then set the property values that need updating on the object, overriding
+    // those from the previous state, like this:
+    case 'SET_GROUP':
+      return _objectSpread(_objectSpread({}, state), {}, {
+        // use the spread operator to copy existing state properties
+        group: action.payload,
+        // update the group
+        bookableIndex: 0 // and set the bookableIndex to 0
+
+      });
+
+    case 'SET_BOOKABLE':
+      return _objectSpread(_objectSpread({}, state), {}, {
+        bookableIndex: action.payload
+      });
+
+    case 'TOGGLE_HAS_DETAILS':
+      return _objectSpread(_objectSpread({}, state), {}, {
+        hasDetails: !state.hasDetails
+      });
+
+    case 'NEXT_BOOKABLE':
+      // eslint-disable-next-line no-case-declarations
+      var count = state.bookables // Use the bookables data to count the bookables in the current group.
+      .filter(function (b) {
+        return b.group === state.group;
+      }).length;
+      return _objectSpread(_objectSpread({}, state), {}, {
+        bookableIndex: (state.bookableIndex + 1) % count // Use the modulus operator to wrap from the last index to the first.
+
+      });
+
+    default:
+      return state;
+  }
+}
 },{}],"components/Bookables/BookablesList.js":[function(require,module,exports) {
 "use strict";
 
@@ -64715,6 +64779,10 @@ var _react = _interopRequireWildcard(require("react"));
 var _static = require("../../static.json");
 
 var _fa = require("react-icons/fa");
+
+var _reducer = _interopRequireDefault(require("./reducer"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function (nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
 
@@ -64740,62 +64808,58 @@ function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Sy
 
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
-/**
- * How does React know when to call the function and update the UI?
- * Just because you change the value of a variable within your component
- * function doesn’t mean React will notice. If you want to get noticed,
- * you can’t just say “Hello, World!” to people in your head; you have to say it out loud.
- */
+var initialState = {
+  group: 'Rooms',
+  bookableIndex: 0,
+  hasDetails: true,
+  bookables: _static.bookables
+};
+
 function BookablesList() {
-  var _bookable$days, _bookable$sessions;
+  var _useReducer = (0, _react.useReducer)(_reducer.default, initialState),
+      _useReducer2 = _slicedToArray(_useReducer, 2),
+      state = _useReducer2[0],
+      dispatch = _useReducer2[1]; // Call useReducer, passing the reducer and the initial state.
 
-  console.log('==========> BookablesList() <=========='); // Calling useState returns a value and its updater function in an array with two elements
 
-  var _useState = (0, _react.useState)('Kit'),
-      _useState2 = _slicedToArray(_useState, 2),
-      group = _useState2[0],
-      setGroup = _useState2[1];
+  var group = state.group,
+      bookableIndex = state.bookableIndex,
+      bookables = state.bookables,
+      hasDetails = state.hasDetails; // Assign state values to local variables.
 
-  var _useState3 = (0, _react.useState)(0),
-      _useState4 = _slicedToArray(_useState3, 2),
-      bookableIndex = _useState4[0],
-      setBookableIndex = _useState4[1];
+  var bookablesInGroup = bookables.filter(function (b) {
+    return b.group === group;
+  });
+  var bookable = bookablesInGroup[bookableIndex];
 
-  var groups = _toConsumableArray(new Set(_static.bookables.map(function (b) {
+  var groups = _toConsumableArray(new Set(bookables.map(function (b) {
     return b.group;
   })));
 
-  console.log('=> bookable.groups');
-  console.log(groups);
-  /**let bookableIndex = 1;
-   const changeBookable = (selectedIndex) => {
-      bookableIndex = selectedIndex;
-      console.log(selectedIndex);
-  };*/
+  function changeGroup(e) {
+    dispatch({
+      type: 'SET_GROUP',
+      payload: e.target.value
+    });
+  }
 
-  var bookablesInGroup = _static.bookables.filter(function (b) {
-    return b.group === group;
-  }); // filter the bookables to just those in the group
-
-
-  var bookable = bookablesInGroup[bookableIndex];
-  console.log('=> bookable.days');
-  console.log(bookable.days);
-  console.log('=> bookable.sessions');
-  console.log(bookable.sessions);
-
-  var _useState5 = (0, _react.useState)(false),
-      _useState6 = _slicedToArray(_useState5, 2),
-      hasDetails = _useState6[0],
-      setHasDetails = _useState6[1];
-
-  function changeGroup(event) {
-    setGroup(event.target.value);
-    setBookableIndex(0);
+  function changeBookable(selectedIndex) {
+    dispatch({
+      type: 'SET_BOOKABLE',
+      payload: selectedIndex
+    });
   }
 
   function nextBookable() {
-    setBookableIndex((bookableIndex + 1) % bookablesInGroup.length);
+    dispatch({
+      type: 'NEXT_BOOKABLE'
+    });
+  }
+
+  function toggleDetails() {
+    dispatch({
+      type: 'TOGGLE_HAS_DETAILS'
+    });
   }
 
   return /*#__PURE__*/_react.default.createElement(_react.Fragment, null, /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement("select", {
@@ -64815,7 +64879,7 @@ function BookablesList() {
     }, /*#__PURE__*/_react.default.createElement("button", {
       className: "btn",
       onClick: function onClick() {
-        return setBookableIndex(i);
+        return changeBookable(i);
       }
     }, b.title));
   })), /*#__PURE__*/_react.default.createElement("p", null, /*#__PURE__*/_react.default.createElement("button", {
@@ -64833,26 +64897,22 @@ function BookablesList() {
   }, /*#__PURE__*/_react.default.createElement("label", null, /*#__PURE__*/_react.default.createElement("input", {
     type: "checkbox",
     checked: hasDetails,
-    onChange: function onChange() {
-      return setHasDetails(function (has) {
-        return !has;
-      });
-    }
+    onChange: toggleDetails
   }), "Show Details"))), /*#__PURE__*/_react.default.createElement("p", null, bookable.notes), hasDetails && /*#__PURE__*/_react.default.createElement("div", {
     className: "item-details"
   }, /*#__PURE__*/_react.default.createElement("h3", null, "Availability"), /*#__PURE__*/_react.default.createElement("div", {
     className: "bookable-availability"
-  }, /*#__PURE__*/_react.default.createElement("ul", null, bookable === null || bookable === void 0 ? void 0 : (_bookable$days = bookable.days) === null || _bookable$days === void 0 ? void 0 : _bookable$days.sort().map(function (d) {
+  }, /*#__PURE__*/_react.default.createElement("ul", null, bookable.days.sort().map(function (d) {
     return /*#__PURE__*/_react.default.createElement("li", {
       key: d
     }, _static.days[d]);
-  })), /*#__PURE__*/_react.default.createElement("ul", null, bookable === null || bookable === void 0 ? void 0 : (_bookable$sessions = bookable.sessions) === null || _bookable$sessions === void 0 ? void 0 : _bookable$sessions.map(function (s) {
+  })), /*#__PURE__*/_react.default.createElement("ul", null, bookable.sessions.map(function (s) {
     return /*#__PURE__*/_react.default.createElement("li", {
       key: s
     }, _static.sessions[s]);
   })))))));
 }
-},{"react":"../../../node_modules/react/index.js","../../static.json":"static.json","react-icons/fa":"../../../node_modules/react-icons/fa/index.esm.js"}],"components/Bookables/BookablesPage.js":[function(require,module,exports) {
+},{"react":"../../../node_modules/react/index.js","../../static.json":"static.json","react-icons/fa":"../../../node_modules/react-icons/fa/index.esm.js","./reducer":"components/Bookables/reducer.js"}],"components/Bookables/BookablesPage.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -65071,7 +65131,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "51579" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "54267" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

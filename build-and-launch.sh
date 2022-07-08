@@ -1,0 +1,1 @@
+npm run build && mvn clean package && java -jar target/react-hooks-in-action-1.0.0-SNAPSHOT.jar

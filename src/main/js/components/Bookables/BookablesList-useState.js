@@ -1,45 +1,48 @@
-import React, {useReducer, Fragment} from 'react';
+import React, {useState, Fragment} from 'react';
+
+// Use object destructuring to assign the bookables data to a local variable.
 import {bookables, sessions, days} from '../../static.json';
 import {FaArrowRight} from 'react-icons/fa';
 
-import reducer from './reducer';
-
-const initialState = {
-    group: 'Rooms',
-    bookableIndex: 0,
-    hasDetails: true,
-    bookables
-};
-
+/**
+ * How does React know when to call the function and update the UI?
+ * Just because you change the value of a variable within your component
+ * function doesn’t mean React will notice. If you want to get noticed,
+ * you can’t just say “Hello, World!” to people in your head; you have to say it out loud.
+ */
 export default function BookablesList() {
-    const [state, dispatch] = useReducer(reducer, initialState); // Call useReducer, passing the reducer and the initial state.
+    console.log('==========> BookablesList() <==========');
 
-    const {group, bookableIndex, bookables, hasDetails} = state; // Assign state values to local variables.
-
-    const bookablesInGroup = bookables.filter(b => b.group === group);
-    const bookable = bookablesInGroup[bookableIndex];
+    // Calling useState returns a value and its updater function in an array with two elements
+    const [group, setGroup] = useState('Kit');
+    const [bookableIndex, setBookableIndex] = useState(0);
     const groups = [...new Set(bookables.map(b => b.group))];
 
-    function changeGroup(e) {
-        dispatch({
-            type: 'SET_GROUP',
-            payload: e.target.value
-        });
-    }
+    console.log('=> bookable.groups');
+    console.log(groups);
 
-    function changeBookable(selectedIndex) {
-        dispatch({
-            type: 'SET_BOOKABLE',
-            payload: selectedIndex
-        });
+    /**let bookableIndex = 1;
+     const changeBookable = (selectedIndex) => {
+        bookableIndex = selectedIndex;
+        console.log(selectedIndex);
+    };*/
+
+    const bookablesInGroup = bookables.filter(b => b.group === group); // filter the bookables to just those in the group
+    const bookable = bookablesInGroup[bookableIndex];
+
+    console.log('=> bookable.days');
+    console.log(bookable.days);
+    console.log('=> bookable.sessions');
+    console.log(bookable.sessions);
+    const [hasDetails, setHasDetails] = useState(false);
+
+    function changeGroup (event) {
+        setGroup(event.target.value);
+        setBookableIndex(0);
     }
 
     function nextBookable() {
-        dispatch({type: 'NEXT_BOOKABLE'});
-    }
-
-    function toggleDetails() {
-        dispatch({type: 'TOGGLE_HAS_DETAILS'});
+        setBookableIndex((bookableIndex + 1) % bookablesInGroup.length);
     }
 
     return (
@@ -48,11 +51,10 @@ export default function BookablesList() {
                 <select value={group} onChange={changeGroup}>
                     {groups.map(g => <option value={g} key={g}>{g}</option>)}
                 </select>
-
                 <ul className="bookables items-list-nav">
                     {bookablesInGroup.map((b, i) => (
                         <li key={b.id} className={i === bookableIndex ? 'selected' : null}>
-                            <button className="btn" onClick={() => changeBookable(i)}>
+                            <button className="btn" onClick={() => setBookableIndex(i)}>
                                 {b.title}
                             </button>
                         </li>
@@ -70,12 +72,10 @@ export default function BookablesList() {
                 <div className="bookable-details">
                     <div className="item">
                         <div className="item-header">
-                            <h2>
-                                {bookable.title}
-                            </h2>
+                            <h2>{bookable.title}</h2>
                             <span className="controls">
                                 <label>
-                                  <input type="checkbox" checked={hasDetails} onChange={toggleDetails}/>
+                                  <input type="checkbox" checked={hasDetails} onChange={() => setHasDetails(has => !has)}/>
                                   Show Details
                                 </label>
                             </span>
@@ -88,10 +88,10 @@ export default function BookablesList() {
                                 <h3>Availability</h3>
                                 <div className="bookable-availability">
                                     <ul>
-                                        {bookable.days.sort().map(d => <li key={d}>{days[d]}</li>)}
+                                        {bookable?.days?.sort().map(d => <li key={d}>{days[d]}</li>)}
                                     </ul>
                                     <ul>
-                                        {bookable.sessions.map(s => <li key={s}>{sessions[s]}</li>)}
+                                        {bookable?.sessions?.map(s => <li key={s}>{sessions[s]}</li>)}
                                     </ul>
                                 </div>
                             </div>
