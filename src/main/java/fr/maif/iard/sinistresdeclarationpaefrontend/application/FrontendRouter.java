@@ -16,10 +16,12 @@ public class FrontendRouter {
 
     @Bean
     public RouterFunction<ServerResponse> route(final FrontendHandler sinistresDeclarationPaeFrontendHandler,
-                                                final BookablesHandler bookablesHandler) {
+                                                final BookablesHandler bookablesHandler,
+                                                final UsersHandler usersHandler) {
         return RouterFunctions
                 .route(getTextPlain("/"), request -> sinistresDeclarationPaeFrontendHandler.init())
                 .andRoute(GET("/api/bookables"), bookablesHandler::getBookables)
+                .andRoute(GET("/api/users"), usersHandler::getUsers)
                 .andRoute(getTextPlain("/*"), request -> sinistresDeclarationPaeFrontendHandler.init());
     }
 

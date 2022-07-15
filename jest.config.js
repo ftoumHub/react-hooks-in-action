@@ -12,6 +12,6 @@ module.exports = {
     testMatch: [
         '<rootDir>/**/*.spec.(js|jsx)'
     ],
-    testEnvironment: "jsdom",
+    testEnvironment: 'jsdom',
     transformIgnorePatterns: ['node_modules/(?!(tippy.js|plume-react)/)']
 };

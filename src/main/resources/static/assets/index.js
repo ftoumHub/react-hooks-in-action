@@ -65015,7 +65015,26 @@ function UsersPage() {
     className: "users-page"
   }, /*#__PURE__*/_react.default.createElement(_UsersList.default, null));
 }
-},{"react":"../../../node_modules/react/index.js","./UsersList":"components/Users/UsersList.js"}],"components/Users/UserPicker.js":[function(require,module,exports) {
+},{"react":"../../../node_modules/react/index.js","./UsersList":"components/Users/UsersList.js"}],"components/UI/Spinner.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = Spinner;
+
+var _react = _interopRequireDefault(require("react"));
+
+var _fa = require("react-icons/fa");
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function Spinner(props) {
+  return /*#__PURE__*/_react.default.createElement("span", props, /*#__PURE__*/_react.default.createElement(_fa.FaSpinner, {
+    className: "icon-loading"
+  }));
+}
+},{"react":"../../../node_modules/react/index.js","react-icons/fa":"../../../node_modules/react-icons/fa/index.esm.js"}],"components/Users/UserPicker.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -65023,20 +65042,98 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = UserPicker;
 
-var _react = _interopRequireDefault(require("react"));
+var _react = _interopRequireWildcard(require("react"));
 
-var _static = require("../../static.json");
+var _Spinner = _interopRequireDefault(require("../UI/Spinner"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function (nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
+
+function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
+
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
 function UserPicker() {
-  return /*#__PURE__*/_react.default.createElement("select", null, _static.users.map(function (u) {
+  var _useState = (0, _react.useState)(null),
+      _useState2 = _slicedToArray(_useState, 2),
+      users = _useState2[0],
+      setUsers = _useState2[1];
+
+  (0, _react.useEffect)(function () {
+    // fetch the data from inside an effect function
+    console.log('fetching users...');
+    fetch('http://localhost:8080/api/users').then(function (resp) {
+      return resp.json();
+    }).then(function (data) {
+      return setUsers(data);
+    });
+  }, []);
+
+  if (users === null) {
+    return /*#__PURE__*/_react.default.createElement(_Spinner.default, null);
+  }
+
+  return /*#__PURE__*/_react.default.createElement("select", null, users.map(function (u) {
     return /*#__PURE__*/_react.default.createElement("option", {
       key: u.id
     }, u.name);
   }));
 }
-},{"react":"../../../node_modules/react/index.js","../../static.json":"static.json"}],"index.js":[function(require,module,exports) {
+},{"react":"../../../node_modules/react/index.js","../UI/Spinner":"components/UI/Spinner.js"}],"components/Divers/css-grid-page.scss":[function(require,module,exports) {
+var reloadCSS = require('_css_loader');
+
+module.hot.dispose(reloadCSS);
+module.hot.accept(reloadCSS);
+},{"_css_loader":"../../../node_modules/parcel-bundler/src/builtins/css-loader.js"}],"components/Divers/CssGridPage.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = CssGridPage;
+
+var _react = _interopRequireDefault(require("react"));
+
+require("./css-grid-page.scss");
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+/**
+ * Voir l'exemple ici : https://developer.mozilla.org/fr/docs/Web/CSS/CSS_Grid_Layout
+ *
+ * Autres sites :
+ * https://css-tricks.com/snippets/css/complete-guide-grid/
+ *
+ */
+function CssGridPage() {
+  return /*#__PURE__*/_react.default.createElement("main", null, /*#__PURE__*/_react.default.createElement("div", {
+    className: "parent"
+  }, /*#__PURE__*/_react.default.createElement("div", {
+    className: "one"
+  }, "Un"), /*#__PURE__*/_react.default.createElement("div", {
+    className: "two"
+  }, "Deux"), /*#__PURE__*/_react.default.createElement("div", {
+    className: "three"
+  }, "Trois"), /*#__PURE__*/_react.default.createElement("div", {
+    className: "four"
+  }, "Quatre"), /*#__PURE__*/_react.default.createElement("div", {
+    className: "five"
+  }, "Cinq"), /*#__PURE__*/_react.default.createElement("div", {
+    className: "six"
+  }, "Six")));
+}
+},{"react":"../../../node_modules/react/index.js","./css-grid-page.scss":"components/Divers/css-grid-page.scss"}],"index.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -65061,6 +65158,8 @@ var _BookingsPage = _interopRequireDefault(require("./components/Bookings/Bookin
 var _UsersPage = _interopRequireDefault(require("./components/Users/UsersPage"));
 
 var _UserPicker = _interopRequireDefault(require("./components/Users/UserPicker"));
+
+var _CssGridPage = _interopRequireDefault(require("./components/Divers/CssGridPage"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -65094,6 +65193,9 @@ var App = function App() {
   }), /*#__PURE__*/_react.default.createElement(_reactRouterDom.Route, {
     path: "/users",
     element: /*#__PURE__*/_react.default.createElement(_UsersPage.default, null)
+  }), /*#__PURE__*/_react.default.createElement(_reactRouterDom.Route, {
+    path: "/css-grid",
+    element: /*#__PURE__*/_react.default.createElement(_CssGridPage.default, null)
   })))));
 };
 
@@ -65103,7 +65205,7 @@ function init() {
   var root = (0, _client.createRoot)(container);
   root.render( /*#__PURE__*/_react.default.createElement(App, null));
 }
-},{"react":"../../../node_modules/react/index.js","react-dom/client":"../../../node_modules/react-dom/client.js","./App.css":"App.css","react-router-dom":"../../../node_modules/react-router-dom/index.js","react-icons/fa":"../../../node_modules/react-icons/fa/index.esm.js","./components/Bookables/BookablesPage":"components/Bookables/BookablesPage.js","./components/Bookings/BookingsPage":"components/Bookings/BookingsPage.js","./components/Users/UsersPage":"components/Users/UsersPage.js","./components/Users/UserPicker":"components/Users/UserPicker.js"}],"../../../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+},{"react":"../../../node_modules/react/index.js","react-dom/client":"../../../node_modules/react-dom/client.js","./App.css":"App.css","react-router-dom":"../../../node_modules/react-router-dom/index.js","react-icons/fa":"../../../node_modules/react-icons/fa/index.esm.js","./components/Bookables/BookablesPage":"components/Bookables/BookablesPage.js","./components/Bookings/BookingsPage":"components/Bookings/BookingsPage.js","./components/Users/UsersPage":"components/Users/UsersPage.js","./components/Users/UserPicker":"components/Users/UserPicker.js","./components/Divers/CssGridPage":"components/Divers/CssGridPage.js"}],"../../../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -65131,7 +65233,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "54267" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "60982" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

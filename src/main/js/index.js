@@ -13,6 +13,7 @@ import BookingsPage from './components/Bookings/BookingsPage';
 import UsersPage from './components/Users/UsersPage';
 // et on importe le composant UserPicker
 import UserPicker from './components/Users/UserPicker';
+import CssGridPage from './components/Divers/CssGridPage';
 
 /**
  * We use the Link component to display our page links in the header, and Route elements
@@ -55,6 +56,7 @@ const App = () => {
                     <Route path="/bookings" element={<BookingsPage/>}/>
                     <Route path="/bookables" element={<BookablesPage/>}/>
                     <Route path="/users" element={<UsersPage/>}/>
+                    <Route path="/css-grid" element={<CssGridPage/>}/>
                 </Routes>
             </div>
         </BrowserRouter>
